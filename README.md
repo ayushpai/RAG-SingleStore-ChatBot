@@ -1,4 +1,4 @@
-##RAG ChatBot Using SingleStore, LangChain, and OpenAI
+## RAG ChatBot Using SingleStore, LangChain, and OpenAI
 
 ## Installation
 ``pip install openai langchain singlestoredb``

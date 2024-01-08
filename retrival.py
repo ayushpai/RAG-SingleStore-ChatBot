@@ -6,7 +6,7 @@ from langchain_community.embeddings import OpenAIEmbeddings
 from langchain_community.vectorstores.singlestoredb import SingleStoreDB
 
 openai.api_key = os.environ["OPENAI_API_KEY"]
-os.environ["SINGLESTOREDB_URL"] = "admin:Test1234@svc-7301c603-3097-4c72-bc10-7881e89ff282-dml.aws-virginia-6.svc.singlestore.com:3306/RAGTester"
+os.environ["SINGLESTOREDB_URL"] = "<Insert SingleStore Database URL Here>"
 
 # Load text samples
 loader = TextLoader("michael_jackson.txt")

@@ -1,43 +1,59 @@
 import os
 import openai
-from langchain.chains import RetrievalQA
-from langchain.chains.question_answering import load_qa_chain
 from langchain.text_splitter import CharacterTextSplitter
 from langchain_community.document_loaders import TextLoader
 from langchain_community.embeddings import OpenAIEmbeddings
 from langchain_community.vectorstores.singlestoredb import SingleStoreDB
-
-# Create prompt template
-from langchain_core.prompts import PromptTemplate
 from openai import OpenAI
 
-from retrival import docsearch
-
+# Set up API keys and database URL
 openai.api_key = os.environ["OPENAI_API_KEY"]
-os.environ["SINGLESTOREDB_URL"] = "admin:Test1234@svc-7301c603-3097-4c72-bc10-7881e89ff282-dml.aws-virginia-6.svc.singlestore.com:3306/RAGTester"
+os.environ["SINGLESTOREDB_URL"] = "<Insert SingleStore Database URL Here>"
 
+# Load and process documents
+loader = TextLoader("openai_documentation.txt")
+documents = loader.load()
+text_splitter = CharacterTextSplitter(chunk_size=2000, chunk_overlap=0)
+docs = text_splitter.split_documents(documents)
 
-prompt_template = """
-Use the following pieces of context to answer the question at the end. If
-you're not sure, just say so. If there are potential multiple answers,
-summarize them as possible answers.
-{context}
-Question: {question}
-Answer:
-"""
+# Generate embeddings and create a document search database
+embeddings = OpenAIEmbeddings()
+docsearch = SingleStoreDB.from_documents(docs, embeddings, table_name="notebook")
 
-PROMPT = PromptTemplate(template=prompt_template,
-input_variables=["context", "question"])
+# Initialize OpenAI client
+client = OpenAI()
 
-# Initialize RetrievalQA object
-qa_chain = load_qa_chain(OpenAI(), chain_type="stuff")
-chain_type_kwargs = {"prompt": PROMPT}
+# Chat loop
+while True:
+    # Get user input
+    user_query = input("\nYou: ")
 
-qa = RetrievalQA.from_chain_type(llm=OpenAI(model_name='gpt-4-0613'),
-                                 chain_type="stuff",
-                                 retriever=docsearch.as_retriever(),
-                                 chain_type_kwargs=chain_type_kwargs)
+    # Check for exit command
+    if user_query.lower() in ['quit', 'exit']:
+        print("Exiting chatbot.")
+        break
 
-# Query the data
-query = "What did Michael Jackson do with George Lucas?"
-qa.run(query)
+    # Perform similarity search
+    docs = docsearch.similarity_search(user_query)
+    if docs:
+        context = docs[0].page_content
+
+        # Generate response using OpenAI GPT-4
+        response = client.chat.completions.create(
+            model="gpt-4",
+            messages=[
+                {"role": "system", "content": "Context: " + context},
+                {"role": "user", "content": user_query}
+            ],
+            stream=True,
+            max_tokens=500,
+        )
+
+        # Output the response
+        print("AI: ", end="")
+        for chunk in response:
+            if chunk.choices[0].delta.content is not None:
+                print(chunk.choices[0].delta.content, end="")
+
+    else:
+        print("AI: Sorry, I couldn't find relevant information.")

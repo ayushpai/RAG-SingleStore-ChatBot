@@ -24,4 +24,7 @@ docsearch = SingleStoreDB.from_documents(
 
 query = "What does Michael Jackson have to do with Ronald Reagan?"
 docs = docsearch.similarity_search(query)  # Find documents that correspond to the query
+
+
+
 print(docs[0].page_content)

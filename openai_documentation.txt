@@ -1,0 +1,1797 @@
+Introduction
+Looking for ChatGPT? Head to chat.openai.com.
+The OpenAI API can be applied to virtually any task. We offer a range of models with different capabilities and price points, as well as the ability to fine-tune custom models.
+
+Resources
+Experiment in the playground
+Read the API reference
+Visit the help center
+View the current API status
+Check out the OpenAI Developer Forum
+Learn about our usage policies
+At OpenAI, protecting user data is fundamental to our mission. We do not train our models on inputs and outputs through our API. Learn more on our API data privacy page.
+Key concepts
+Text generation models
+OpenAI's text generation models (often referred to as generative pre-trained transformers or "GPT" models for short), like GPT-4 and GPT-3.5, have been trained to understand natural and formal language. Models like GPT-4 allows text outputs in response to their inputs. The inputs to these models are also referred to as "prompts". Designing a prompt is essentially how you "program" a model like GPT-4, usually by providing instructions or some examples of how to successfully complete a task. Models like GPT-4 can be used across a great variety of tasks including content or code generation, summarization, conversation, creative writing, and more. Read more in our introductory text generation guide and in our prompt engineering guide.
+
+Assistants
+Assistants refer to entities, which in the case of the OpenAI API are powered by large language models like GPT-4, that are capable of performing tasks for users. These assistants operate based on the instructions embedded within the context window of the model. They also usually have access to tools which allows the assistants to perform more complex tasks like running code or retrieving information from a file. Read more about assistants in our Assistants API Overview.
+
+Embeddings
+An embedding is a vector representation of a piece of data (e.g. some text) that is meant to preserve aspects of its content and/or its meaning. Chunks of data that are similar in some way will tend to have embeddings that are closer together than unrelated data. OpenAI offers text embedding models that take as input a text string and produce as output an embedding vector. Embeddings are useful for search, clustering, recommendations, anomaly detection, classification, and more. Read more about embeddings in our embeddings guide.
+
+Tokens
+Text generation and embeddings models process text in chunks called tokens. Tokens represent commonly occurring sequences of characters. For example, the string " tokenization" is decomposed as " token" and "ization", while a short and common word like " the" is represented as a single token. Note that in a sentence, the first token of each word typically starts with a space character. Check out our tokenizer tool to test specific strings and see how they are translated into tokens. As a rough rule of thumb, 1 token is approximately 4 characters or 0.75 words for English text.
+
+One limitation to keep in mind is that for a text generation model the prompt and the generated output combined must be no more than the model's maximum context length. For embeddings models (which do not output tokens), the input must be shorter than the model's maximum context length. The maximum context lengths for each text generation and embeddings model can be found in the model index.
+
+Developer quickstart
+Get up and running with the OpenAI API
+Looking for ChatGPT? Head to chat.openai.com.
+The OpenAI API provides a simple interface for developers to create an intelligence layer in their applications, powered by OpenAI's state of the art models. The Chat Completions endpoint powers ChatGPT and provides a simple way to take text as input and use a model like GPT-4 to generate an output.
+
+Want to jump straight to the code?
+Skip the quickstart and dive into the API reference.
+
+This quickstart is designed to help get your local development environment setup and send your first API request. If you are an experienced developer or want to just dive into using the OpenAI API, the API reference of GPT guide are a great place to start. Throughout this quickstart, you will learn:
+
+How to setup your development environment
+How to install the latest SDKs
+Some of the basic concepts of the OpenAI API
+How to send your first API request
+If you run into any challenges or have questions getting started, please join our developer forum.
+
+Account setup
+First, create an OpenAI account or sign in. Next, navigate to the API key page and "Create new secret key", optionally naming the key. Make sure to save this somewhere safe and do not share it with anyone.
+
+Quickstart language selection
+Select the tool or language you want to get started using the OpenAI API with.
+
+Python is a popular programming language that is commonly used for data applications, web development, and many other programming tasks due to its ease of use. OpenAI provides a custom Python library which makes working with the OpenAI API in Python simple and efficient.
+
+Step 1: Setup Python
+Install Python
+Setup a virtual environment (optional)
+Install the OpenAI Python library
+Step 2: Setup your API key
+Setup your API key for all projects (recommended)
+Setup your API key for a single project
+Step 3: Sending your first API request
+Making an API request
+After you have Python configured and an API key setup, the final step is to send a request to the OpenAI API using the Python library. To do this, create a file named openai-test.py using th terminal or an IDE.
+
+Inside the file, copy and paste one of the examples below:
+
+ChatCompletions
+
+ChatCompletions
+from openai import OpenAI
+client = OpenAI()
+
+completion = client.chat.completions.create(
+  model="gpt-3.5-turbo",
+  messages=[
+    {"role": "system", "content": "You are a poetic assistant, skilled in explaining complex programming concepts with creative flair."},
+    {"role": "user", "content": "Compose a poem that explains the concept of recursion in programming."}
+  ]
+)
+
+print(completion.choices[0].message)
+To run the code, enter python openai-test.py into the terminal / command line.
+
+The Chat Completions example highlights just one area of strength for our models: creative ability. Explaining recursion (the programming topic) in a well formatted poem is something both the best developers and best poets would struggle with. In this case, gpt-3.5-turbo does it effortlessly.
+
+Models
+New models launched at DevDay
+
+We are excited to announce the preview release of GPT-4 Turbo (128k context window) and an updated GPT-3.5 Turbo (16k context window). Among other things, both models come with improved instruction following, JSON mode, more reproducible outputs, and parallel function calling.
+Learn more.
+Overview
+The OpenAI API is powered by a diverse set of models with different capabilities and price points. You can also make customizations to our models for your specific use case with fine-tuning.
+
+MODEL	DESCRIPTION
+GPT-4 and GPT-4 Turbo	A set of models that improve on GPT-3.5 and can understand as well as generate natural language or code
+GPT-3.5	A set of models that improve on GPT-3 and can understand as well as generate natural language or code
+DALL·E	A model that can generate and edit images given a natural language prompt
+TTS	A set of models that can convert text into natural sounding spoken audio
+Whisper	A model that can convert audio into text
+Embeddings	A set of models that can convert text into a numerical form
+Moderation	A fine-tuned model that can detect whether text may be sensitive or unsafe
+GPT base	A set of models without instruction following that can understand as well as generate natural language or code
+Deprecated	A full list of models that have been deprecated along with the suggested replacement
+We have also published open source models including Point-E, Whisper, Jukebox, and CLIP.
+
+Continuous model upgrades
+gpt-3.5-turbo, gpt-4, and gpt-4-32k point to the latest model version. You can verify this by looking at the response object after sending a request. The response will include the specific model version used (e.g. gpt-3.5-turbo-0613).
+
+We also offer static model versions that developers can continue using for at least three months after an updated model has been introduced. With the new cadence of model updates, we are also giving people the ability to contribute evals to help us improve the model for different use cases. If you are interested, check out the OpenAI Evals repository.
+
+The following models are the temporary snapshots, which we have already announced the deprecation dates of along with their replacement. If you want to use the latest model version, use the standard model names like gpt-4 or gpt-3.5-turbo.
+
+MODEL NAME	DISCONTINUATION DATE	REPLACEMENT MODEL
+gpt-3.5-turbo-0613	Jun 13, 2024	gpt-3.5-turbo-1106
+gpt-3.5-turbo-0301	Jun 13, 2024	gpt-3.5-turbo-1106
+gpt-4-0314	Jun 13, 2024	gpt-4-0613
+gpt-4-32k-0314	Jun 13, 2024	gpt-4-32k-0613
+Learn more about model deprecation on our deprecation page.
+
+GPT-4 and GPT-4 Turbo
+GPT-4 is a large multimodal model (accepting text or image inputs and outputting text) that can solve difficult problems with greater accuracy than any of our previous models, thanks to its broader general knowledge and advanced reasoning capabilities. GPT-4 is available in the OpenAI API to paying customers. Like gpt-3.5-turbo, GPT-4 is optimized for chat but works well for traditional completions tasks using the Chat Completions API. Learn how to use GPT-4 in our GPT guide.
+
+MODEL	DESCRIPTION	CONTEXT WINDOW	TRAINING DATA
+gpt-4-1106-preview	New GPT-4 Turbo
+The latest GPT-4 model with improved instruction following, JSON mode, reproducible outputs, parallel function calling, and more. Returns a maximum of 4,096 output tokens. This preview model is not yet suited for production traffic. Learn more.	128,000 tokens	Up to Apr 2023
+gpt-4-vision-preview	New GPT-4 Turbo with vision
+Ability to understand images, in addition to all other GPT-4 Turbo capabilties. Returns a maximum of 4,096 output tokens. This is a preview model version and not suited yet for production traffic. Learn more.	128,000 tokens	Up to Apr 2023
+gpt-4	Currently points to gpt-4-0613. See continuous model upgrades.	8,192 tokens	Up to Sep 2021
+gpt-4-32k	Currently points to gpt-4-32k-0613. See continuous model upgrades.	32,768 tokens	Up to Sep 2021
+gpt-4-0613	Snapshot of gpt-4 from June 13th 2023 with improved function calling support.	8,192 tokens	Up to Sep 2021
+gpt-4-32k-0613	Snapshot of gpt-4-32k from June 13th 2023 with improved function calling support.	32,768 tokens	Up to Sep 2021
+gpt-4-0314	Legacy Snapshot of gpt-4 from March 14th 2023 with function calling support. This model version will be deprecated on June 13th 2024.	8,192 tokens	Up to Sep 2021
+gpt-4-32k-0314	Legacy Snapshot of gpt-4-32k from March 14th 2023 with function calling support. This model version will be deprecated on June 13th 2024.	32,768 tokens	Up to Sep 2021
+For many basic tasks, the difference between GPT-4 and GPT-3.5 models is not significant. However, in more complex reasoning situations, GPT-4 is much more capable than any of our previous models.
+
+Multilingual capabilities
+GPT-4 outperforms both previous large language models and as of 2023, most state-of-the-art systems (which often have benchmark-specific training or hand-engineering). On the MMLU benchmark, an English-language suite of multiple-choice questions covering 57 subjects, GPT-4 not only outperforms existing models by a considerable margin in English, but also demonstrates strong performance in other languages.
+
+GPT-3.5
+GPT-3.5 models can understand and generate natural language or code. Our most capable and cost effective model in the GPT-3.5 family is gpt-3.5-turbo which has been optimized for chat using the Chat Completions API but works well for traditional completions tasks as well.
+
+MODEL	DESCRIPTION	CONTEXT WINDOW	TRAINING DATA
+gpt-3.5-turbo-1106	New Updated GPT 3.5 Turbo
+The latest GPT-3.5 Turbo model with improved instruction following, JSON mode, reproducible outputs, parallel function calling, and more. Returns a maximum of 4,096 output tokens. Learn more.	16,385 tokens	Up to Sep 2021
+gpt-3.5-turbo	Currently points to gpt-3.5-turbo-0613.	4,096 tokens	Up to Sep 2021
+gpt-3.5-turbo-16k	Currently points to gpt-3.5-turbo-0613.	16,385 tokens	Up to Sep 2021
+gpt-3.5-turbo-instruct	Similar capabilities as GPT-3 era models. Compatible with legacy Completions endpoint and not Chat Completions.	4,096 tokens	Up to Sep 2021
+gpt-3.5-turbo-0613	Legacy Snapshot of gpt-3.5-turbo from June 13th 2023. Will be deprecated on June 13, 2024.	4,096 tokens	Up to Sep 2021
+gpt-3.5-turbo-16k-0613	Legacy Snapshot of gpt-3.5-16k-turbo from June 13th 2023. Will be deprecated on June 13, 2024.	16,385 tokens	Up to Sep 2021
+gpt-3.5-turbo-0301	Legacy Snapshot of gpt-3.5-turbo from March 1st 2023. Will be deprecated on June 13th 2024.	4,096 tokens	Up to Sep 2021
+We recommend using gpt-3.5-turbo over the other GPT-3.5 models because of its lower cost and improved performance.
+
+DALL·E
+DALL·E is a AI system that can create realistic images and art from a description in natural language. DALL·E 3 currently supports the ability, given a prompt, to create a new image with a specific size. DALL·E 2 also support the ability to edit an existing image, or create variations of a user provided image.
+
+DALL·E 3 is available through our Images API along with DALL·E 2. You can try DALL·E 3 through ChatGPT Plus.
+
+MODEL	DESCRIPTION
+dall-e-3	New DALL·E 3
+The latest DALL·E model released in Nov 2023. Learn more.
+dall-e-2	The previous DALL·E model released in Nov 2022. The 2nd iteration of DALL·E with more realistic, accurate, and 4x greater resolution images than the original model.
+TTS
+TTS is an AI model that converts text to natural sounding spoken text. We offer two different model variates, tts-1 is optimized for real time text to speech use cases and tts-1-hd is optimized for quality. These models can be used with the Speech endpoint in the Audio API.
+
+MODEL	DESCRIPTION
+tts-1	New Text-to-speech 1
+The latest text to speech model, optimized for speed.
+tts-1-hd	New Text-to-speech 1 HD
+The latest text to speech model, optimized for quality.
+Whisper
+Whisper is a general-purpose speech recognition model. It is trained on a large dataset of diverse audio and is also a multi-task model that can perform multilingual speech recognition as well as speech translation and language identification. The Whisper v2-large model is currently available through our API with the whisper-1 model name.
+
+Currently, there is no difference between the open source version of Whisper and the version available through our API. However, through our API, we offer an optimized inference process which makes running Whisper through our API much faster than doing it through other means. For more technical details on Whisper, you can read the paper.
+
+Embeddings
+Embeddings are a numerical representation of text that can be used to measure the relatedness between two pieces of text. Our second generation embedding model, text-embedding-ada-002 is a designed to replace the previous 16 first-generation embedding models at a fraction of the cost. Embeddings are useful for search, clustering, recommendations, anomaly detection, and classification tasks. You can read more about our latest embedding model in the announcement blog post.
+
+Moderation
+The Moderation models are designed to check whether content complies with OpenAI's usage policies. The models provide classification capabilities that look for content in the following categories: hate, hate/threatening, self-harm, sexual, sexual/minors, violence, and violence/graphic. You can find out more in our moderation guide.
+
+Moderation models take in an arbitrary sized input that is automatically broken up into chunks of 4,096 tokens. In cases where the input is more than 32,768 tokens, truncation is used which in a rare condition may omit a small number of tokens from the moderation check.
+
+The final results from each request to the moderation endpoint shows the maximum value on a per category basis. For example, if one chunk of 4K tokens had a category score of 0.9901 and the other had a score of 0.1901, the results would show 0.9901 in the API response since it is higher.
+
+MODEL	DESCRIPTION	MAX TOKENS
+text-moderation-latest	Most capable moderation model. Accuracy will be slightly higher than the stable model.	32,768
+text-moderation-stable	Almost as capable as the latest model, but slightly older.	32,768
+GPT base
+GPT base models can understand and generate natural language or code but are not trained with instruction following. These models are made to be replacements for our original GPT-3 base models and use the legacy Completions API. Most customers should use GPT-3.5 or GPT-4.
+
+MODEL	DESCRIPTION	MAX TOKENS	TRAINING DATA
+babbage-002	Replacement for the GPT-3 ada and babbage base models.	16,384 tokens	Up to Sep 2021
+davinci-002	Replacement for the GPT-3 curie and davinci base models.	16,384 tokens	Up to Sep 2021
+How we use your data
+Your data is your data.
+
+As of March 1, 2023, data sent to the OpenAI API will not be used to train or improve OpenAI models (unless you explicitly opt in). One advantage to opting in is that the models may get better at your use case over time.
+
+To help identify abuse, API data may be retained for up to 30 days, after which it will be deleted (unless otherwise required by law). For trusted customers with sensitive applications, zero data retention may be available. With zero data retention, request and response bodies are not persisted to any logging mechanism and exist only in memory in order to serve the request.
+
+Note that this data policy does not apply to OpenAI's non-API consumer services like ChatGPT or DALL·E Labs.
+
+Default usage policies by endpoint
+ENDPOINT	DATA USED FOR TRAINING	DEFAULT RETENTION	ELIGIBLE FOR ZERO RETENTION
+/v1/chat/completions*	No	30 days	Yes, except image inputs*
+/v1/files	No	Until deleted by customer	No
+/v1/assistants	No	Until deleted by customer	No
+/v1/threads	No	60 days *	No
+/v1/threads/messages	No	60 days *	No
+/v1/threads/runs	No	60 days *	No
+/v1/threads/runs/steps	No	60 days *	No
+/v1/images/generations	No	30 days	No
+/v1/images/edits	No	30 days	No
+/v1/images/variations	No	30 days	No
+/v1/embeddings	No	30 days	Yes
+/v1/audio/transcriptions	No	Zero data retention	-
+/v1/audio/translations	No	Zero data retention	-
+/v1/audio/speech	No	30 days	No
+/v1/fine_tuning/jobs	No	Until deleted by customer	No
+/v1/moderations	No	Zero data retention	-
+/v1/completions	No	30 days	Yes
+* Image inputs via the gpt-4-vision-preview model are not eligible for zero retention.
+
+* For the Assistants API, we are still evaluating the default retention period during the Beta. We expect that the default retention period will be stable after the end of the Beta.
+
+For details, see our API data usage policies. To learn more about zero retention, get in touch with our sales team.
+
+Model endpoint compatibility
+ENDPOINT	LATEST MODELS
+/v1/assistants	All models except gpt-3.5-turbo-0301 supported. retrieval tool requires gpt-4-1106-preview or gpt-3.5-turbo-1106.
+/v1/audio/transcriptions	whisper-1
+/v1/audio/translations	whisper-1
+/v1/audio/speech	tts-1, tts-1-hd
+/v1/chat/completions	gpt-4 and dated model releases, gpt-4-1106-preview, gpt-4-vision-preview, gpt-4-32k and dated model releases, gpt-3.5-turbo and dated model releases, gpt-3.5-turbo-16k and dated model releases, fine-tuned versions of gpt-3.5-turbo
+/v1/completions (Legacy)	gpt-3.5-turbo-instruct, babbage-002, davinci-002
+/v1/embeddings	text-embedding-ada-002
+/v1/fine_tuning/jobs	gpt-3.5-turbo, babbage-002, davinci-002
+/v1/moderations	text-moderation-stable, text-moderation-latest
+/v1/images/generations	dall-e-2, dall-e-3
+
+Moderation
+Overview
+The moderations endpoint is a tool you can use to check whether content complies with OpenAI's usage policies. Developers can thus identify content that our usage policies prohibits and take action, for instance by filtering it.
+
+The models classifies the following categories:
+
+CATEGORY	DESCRIPTION
+hate	Content that expresses, incites, or promotes hate based on race, gender, ethnicity, religion, nationality, sexual orientation, disability status, or caste. Hateful content aimed at non-protected groups (e.g., chess players) is harrassment.
+hate/threatening	Hateful content that also includes violence or serious harm towards the targeted group based on race, gender, ethnicity, religion, nationality, sexual orientation, disability status, or caste.
+harassment	Content that expresses, incites, or promotes harassing language towards any target.
+harassment/threatening	Harassment content that also includes violence or serious harm towards any target.
+self-harm	Content that promotes, encourages, or depicts acts of self-harm, such as suicide, cutting, and eating disorders.
+self-harm/intent	Content where the speaker expresses that they are engaging or intend to engage in acts of self-harm, such as suicide, cutting, and eating disorders.
+self-harm/instructions	Content that encourages performing acts of self-harm, such as suicide, cutting, and eating disorders, or that gives instructions or advice on how to commit such acts.
+sexual	Content meant to arouse sexual excitement, such as the description of sexual activity, or that promotes sexual services (excluding sex education and wellness).
+sexual/minors	Sexual content that includes an individual who is under 18 years old.
+violence	Content that depicts death, violence, or physical injury.
+violence/graphic	Content that depicts death, violence, or physical injury in graphic detail.
+The moderation endpoint is free to use when monitoring the inputs and outputs of OpenAI APIs. We currently disallow other use cases. Accuracy may be lower on longer pieces of text. For higher accuracy, try splitting long pieces of text into smaller chunks each less than 2,000 characters.
+
+We are continuously working to improve the accuracy of our classifier. Our support for non-English languages is currently limited.
+
+Quickstart
+To obtain a classification for a piece of text, make a request to the moderation endpoint as demonstrated in the following code snippets:
+
+Example: Getting moderations
+python
+
+python
+from openai import OpenAI
+client = OpenAI()
+
+response = client.moderations.create(input="Sample text goes here.")
+
+output = response.results[0]
+Below is an example output of the endpoint. It returns the following fields:
+
+flagged: Set to true if the model classifies the content as violating OpenAI's usage policies, false otherwise.
+categories: Contains a dictionary of per-category binary usage policies violation flags. For each category, the value is true if the model flags the corresponding category as violated, false otherwise.
+category_scores: Contains a dictionary of per-category raw scores output by the model, denoting the model's confidence that the input violates the OpenAI's policy for the category. The value is between 0 and 1, where higher values denote higher confidence. The scores should not be interpreted as probabilities.
+{
+  "id": "modr-XXXXX",
+  "model": "text-moderation-005",
+  "results": [
+    {
+      "flagged": true,
+      "categories": {
+        "sexual": false,
+        "hate": false,
+        "harassment": false,
+        "self-harm": false,
+        "sexual/minors": false,
+        "hate/threatening": false,
+        "violence/graphic": false,
+        "self-harm/intent": false,
+        "self-harm/instructions": false,
+        "harassment/threatening": true,
+        "violence": true,
+      },
+      "category_scores": {
+        "sexual": 1.2282071e-06,
+        "hate": 0.010696256,
+        "harassment": 0.29842457,
+        "self-harm": 1.5236925e-08,
+        "sexual/minors": 5.7246268e-08,
+        "hate/threatening": 0.0060676364,
+        "violence/graphic": 4.435014e-06,
+        "self-harm/intent": 8.098441e-10,
+        "self-harm/instructions": 2.8498655e-11,
+        "harassment/threatening": 0.63055265,
+        "violence": 0.99011886,
+      }
+    }
+  ]
+}
+
+Text generation models
+New capabilities launched at DevDay
+
+Text generation models are now capable of JSON mode and Reproducible outputs. We also launched the Assistants API to enable you to build agent-like experiences on top of our text-generation models. GPT-4 Turbo is available in preview by specifying gpt-4-1106-preview as the model name.
+OpenAI's text generation models (often called generative pre-trained transformers or large language models) have been trained to understand natural language, code, and images. The models provide text outputs in response to their inputs. The inputs to these models are also referred to as "prompts". Designing a prompt is essentially how you “program” a large language model model, usually by providing instructions or some examples of how to successfully complete a task.
+
+Using OpenAI's text generation models, you can build applications to:
+
+Draft documents
+Write computer code
+Answer questions about a knowledge base
+Analyze texts
+Give software a natural language interface
+Tutor in a range of subjects
+Translate languages
+Simulate characters for games
+With the release of gpt-4-vision-preview, you can now build systems that also process and understand images.
+
+Explore GPT-4 with image inputs
+Check out the vision guide for more detail.
+GPT-4 Turbo
+Try out GPT-4 Turbo in the playground.
+To use one of these models via the OpenAI API, you’ll send a request containing the inputs and your API key, and receive a response containing the model’s output. Our latest models, gpt-4 and gpt-3.5-turbo, are accessed through the chat completions API endpoint.
+
+MODEL FAMILIES	API ENDPOINT
+Newer models (2023–)	gpt-4, gpt-4 turbo, gpt-3.5-turbo	https://api.openai.com/v1/chat/completions
+Updated legacy models (2023)	gpt-3.5-turbo-instruct, babbage-002, davinci-002	https://api.openai.com/v1/completions
+You can experiment with various models in the chat playground. If you’re not sure which model to use, then use gpt-3.5-turbo or gpt-4.
+
+Chat Completions API
+Chat models take a list of messages as input and return a model-generated message as output. Although the chat format is designed to make multi-turn conversations easy, it’s just as useful for single-turn tasks without any conversation.
+
+An example Chat Completions API call looks like the following:
+
+python
+
+python
+from openai import OpenAI
+client = OpenAI()
+
+response = client.chat.completions.create(
+  model="gpt-3.5-turbo",
+  messages=[
+    {"role": "system", "content": "You are a helpful assistant."},
+    {"role": "user", "content": "Who won the world series in 2020?"},
+    {"role": "assistant", "content": "The Los Angeles Dodgers won the World Series in 2020."},
+    {"role": "user", "content": "Where was it played?"}
+  ]
+)
+To learn more, you can view the full API reference documentation for the Chat API.
+
+The main input is the messages parameter. Messages must be an array of message objects, where each object has a role (either "system", "user", or "assistant") and content. Conversations can be as short as one message or many back and forth turns.
+
+Typically, a conversation is formatted with a system message first, followed by alternating user and assistant messages.
+
+The system message helps set the behavior of the assistant. For example, you can modify the personality of the assistant or provide specific instructions about how it should behave throughout the conversation. However note that the system message is optional and the model’s behavior without a system message is likely to be similar to using a generic message such as "You are a helpful assistant."
+
+The user messages provide requests or comments for the assistant to respond to. Assistant messages store previous assistant responses, but can also be written by you to give examples of desired behavior.
+
+Including conversation history is important when user instructions refer to prior messages. In the example above, the user’s final question of "Where was it played?" only makes sense in the context of the prior messages about the World Series of 2020. Because the models have no memory of past requests, all relevant information must be supplied as part of the conversation history in each request. If a conversation cannot fit within the model’s token limit, it will need to be shortened in some way.
+
+To mimic the effect seen in ChatGPT where the text is returned iteratively, set the stream parameter to true.
+Chat Completions response format
+An example Chat Completions API response looks as follows:
+
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "The 2020 World Series was played in Texas at Globe Life Field in Arlington.",
+        "role": "assistant"
+      },
+      "logprobs": null
+    }
+  ],
+  "created": 1677664795,
+  "id": "chatcmpl-7QyqpwdfhqwajicIEznoc6Q47XAyW",
+  "model": "gpt-3.5-turbo-0613",
+  "object": "chat.completion",
+  "usage": {
+    "completion_tokens": 17,
+    "prompt_tokens": 57,
+    "total_tokens": 74
+  }
+}
+The assistant’s reply can be extracted with:
+
+python
+
+python
+response['choices'][0]['message']['content']
+Every response will include a finish_reason. The possible values for finish_reason are:
+
+stop: API returned complete message, or a message terminated by one of the stop sequences provided via the stop parameter
+length: Incomplete model output due to max_tokens parameter or token limit
+function_call: The model decided to call a function
+content_filter: Omitted content due to a flag from our content filters
+null: API response still in progress or incomplete
+Depending on input parameters, the model response may include different information.
+
+JSON mode New
+A common way to use Chat Completions is to instruct the model to always return a JSON object that makes sense for your use case, by specifying this in the system message. While this does work in some cases, occasionally the models may generate output that does not parse to valid JSON objects.
+
+To prevent these errors and improve model performance, when calling gpt-4-1106-preview or gpt-3.5-turbo-1106, you can set response_format to { "type": "json_object" } to enable JSON mode. When JSON mode is enabled, the model is constrained to only generate strings that parse into valid JSON object.
+
+Important notes:
+
+When using JSON mode, always instruct the model to produce JSON via some message in the conversation, for example via your system message. If you don't include an explicit instruction to generate JSON, the model may generate an unending stream of whitespace and the request may run continually until it reaches the token limit. To help ensure you don't forget, the API will throw an error if the string "JSON" does not appear somewhere in the context.
+The JSON in the message the model returns may be partial (i.e. cut off) if finish_reason is length, which indicates the generation exceeded max_tokens or the conversation exceeded the token limit. To guard against this, check finish_reason before parsing the response.
+JSON mode will not guarantee the output matches any specific schema, only that it is valid and parses without errors.
+python
+
+python
+from openai import OpenAI
+client = OpenAI()
+
+response = client.chat.completions.create(
+  model="gpt-3.5-turbo-1106",
+  response_format={ "type": "json_object" },
+  messages=[
+    {"role": "system", "content": "You are a helpful assistant designed to output JSON."},
+    {"role": "user", "content": "Who won the world series in 2020?"}
+  ]
+)
+print(response.choices[0].message.content)
+In this example, the response includes a JSON object that looks something like the following:
+
+"content": "{\"winner\": \"Los Angeles Dodgers\"}"`
+Note that JSON mode is always enabled when the model is generating arguments as part of function calling.
+
+Reproducible outputs Beta
+Chat Completions are non-deterministic by default (which means model outputs may differ from request to request). That being said, we offer some control towards deterministic outputs by giving you access to the seed parameter and the system_fingerprint response field.
+
+To receive (mostly) deterministic outputs across API calls, you can:
+
+Set the seed parameter to any integer of your choice and use the same value across requests you'd like deterministic outputs for.
+Ensure all other parameters (like prompt or temperature) are the exact same across requests.
+Sometimes, determinism may be impacted due to necessary changes OpenAI makes to model configurations on our end. To help you keep track of these changes, we expose the system_fingerprint field. If this value is different, you may see different outputs due to changes we've made on our systems.
+
+Deterministic outputs
+Explore the new seed parameter in the OpenAI cookbook
+Managing tokens
+Language models read and write text in chunks called tokens. In English, a token can be as short as one character or as long as one word (e.g., a or apple), and in some languages tokens can be even shorter than one character or even longer than one word.
+
+For example, the string "ChatGPT is great!" is encoded into six tokens: ["Chat", "G", "PT", " is", " great", "!"].
+
+The total number of tokens in an API call affects:
+
+How much your API call costs, as you pay per token
+How long your API call takes, as writing more tokens takes more time
+Whether your API call works at all, as total tokens must be below the model’s maximum limit (4097 tokens for gpt-3.5-turbo)
+Both input and output tokens count toward these quantities. For example, if your API call used 10 tokens in the message input and you received 20 tokens in the message output, you would be billed for 30 tokens. Note however that for some models the price per token is different for tokens in the input vs. the output (see the pricing page for more information).
+
+To see how many tokens are used by an API call, check the usage field in the API response (e.g., response['usage']['total_tokens']).
+
+Chat models like gpt-3.5-turbo and gpt-4 use tokens in the same way as the models available in the completions API, but because of their message-based formatting, it's more difficult to count how many tokens will be used by a conversation.
+
+DEEP DIVE
+Counting tokens for chat API calls
+To see how many tokens are in a text string without making an API call, use OpenAI’s tiktoken Python library. Example code can be found in the OpenAI Cookbook’s guide on how to count tokens with tiktoken.
+
+Each message passed to the API consumes the number of tokens in the content, role, and other fields, plus a few extra for behind-the-scenes formatting. This may change slightly in the future.
+
+If a conversation has too many tokens to fit within a model’s maximum limit (e.g., more than 4097 tokens for gpt-3.5-turbo), you will have to truncate, omit, or otherwise shrink your text until it fits. Beware that if a message is removed from the messages input, the model will lose all knowledge of it.
+
+Note that very long conversations are more likely to receive incomplete replies. For example, a gpt-3.5-turbo conversation that is 4090 tokens long will have its reply cut off after just 6 tokens.
+
+Parameter details
+Frequency and presence penalties
+
+The frequency and presence penalties found in the Chat Completions API and Legacy Completions API can be used to reduce the likelihood of sampling repetitive sequences of tokens. They work by directly modifying the logits (un-normalized log-probabilities) with an additive contribution.
+
+mu[j] -> mu[j] - c[j] * alpha_frequency - float(c[j] > 0) * alpha_presence
+Where:
+
+mu[j] is the logits of the j-th token
+c[j] is how often that token was sampled prior to the current position
+float(c[j] > 0) is 1 if c[j] > 0 and 0 otherwise
+alpha_frequency is the frequency penalty coefficient
+alpha_presence is the presence penalty coefficient
+As we can see, the presence penalty is a one-off additive contribution that applies to all tokens that have been sampled at least once and the frequency penalty is a contribution that is proportional to how often a particular token has already been sampled.
+
+Reasonable values for the penalty coefficients are around 0.1 to 1 if the aim is to just reduce repetitive samples somewhat. If the aim is to strongly suppress repetition, then one can increase the coefficients up to 2, but this can noticeably degrade the quality of samples. Negative values can be used to increase the likelihood of repetition.
+
+Token log probabilities
+
+The logprobs parameter found in the Chat Completions API and Legacy Completions API, when requested, provides the log probabilities of each output token, and a limited number of the most likely tokens at each token position alongside their log probabilities. This can be useful in some cases to assess the confidence of the model in its output, or to examine alternative responses the model might have given.
+
+Completions API Legacy
+The completions API endpoint received its final update in July 2023 and has a different interface than the new chat completions endpoint. Instead of the input being a list of messages, the input is a freeform text string called a prompt.
+
+An example legacy Completions API call looks like the following:
+
+python
+
+python
+from openai import OpenAI
+client = OpenAI()
+
+response = client.completions.create(
+  model="gpt-3.5-turbo-instruct",
+  prompt="Write a tagline for an ice cream shop."
+)
+See the full API reference documentation to learn more.
+
+Inserting text
+The completions endpoint also supports inserting text by providing a suffix in addition to the standard prompt which is treated as a prefix. This need naturally arises when writing long-form text, transitioning between paragraphs, following an outline, or guiding the model towards an ending. This also works on code, and can be used to insert in the middle of a function or file.
+
+DEEP DIVE
+Inserting text
+Completions response format
+An example completions API response looks as follows:
+
+{
+  "choices": [
+    {
+      "finish_reason": "length",
+      "index": 0,
+      "logprobs": null,
+      "text": "\n\n\"Let Your Sweet Tooth Run Wild at Our Creamy Ice Cream Shack"
+    }
+  ],
+  "created": 1683130927,
+  "id": "cmpl-7C9Wxi9Du4j1lQjdjhxBlO22M61LD",
+  "model": "gpt-3.5-turbo-instruct",
+  "object": "text_completion",
+  "usage": {
+    "completion_tokens": 16,
+    "prompt_tokens": 10,
+    "total_tokens": 26
+  }
+}
+In Python, the output can be extracted with response['choices'][0]['text'].
+
+The response format is similar to the response format of the Chat Completions API.
+
+Chat Completions vs. Completions
+The Chat Completions format can be made similar to the completions format by constructing a request using a single user message. For example, one can translate from English to French with the following completions prompt:
+
+Translate the following English text to French: "{text}"
+And an equivalent chat prompt would be:
+
+[{"role": "user", "content": 'Translate the following English text to French: "{text}"'}]
+Likewise, the completions API can be used to simulate a chat between a user and an assistant by formatting the input accordingly.
+
+The difference between these APIs is the underlying models that are available in each. The chat completions API is the interface to our most capable model (gpt-4), and our most cost effective model (gpt-3.5-turbo).
+
+Which model should I use?
+We generally recommend that you use either gpt-4 or gpt-3.5-turbo. Which of these you should use depends on the complexity of the tasks you are using the models for. gpt-4 generally performs better on a wide range of evaluations. In particular, gpt-4 is more capable at carefully following complex instructions. By contrast gpt-3.5-turbo is more likely to follow just one part of a complex multi-part instruction. gpt-4 is less likely than gpt-3.5-turbo to make up information, a behavior known as "hallucination". gpt-4 also has a larger context window with a maximum size of 8,192 tokens compared to 4,096 tokens for gpt-3.5-turbo. However, gpt-3.5-turbo returns outputs with lower latency and costs much less per token.
+
+We recommend experimenting in the playground to investigate which models provide the best price performance trade-off for your usage. A common design pattern is to use several distinct query types which are each dispatched to the model appropriate to handle them.
+
+Prompt engineering
+An awareness of the best practices for working with OpenAI models can make a significant difference in application performance. The failure modes that each exhibit and the ways of working around or correcting those failure modes are not always intuitive. There is an entire field related to working with language models which has come to be known as "prompt engineering", but as the field has progressed its scope has outgrown merely engineering the prompt into engineering systems that use model queries as components. To learn more, read our guide on prompt engineering which covers methods to improve model reasoning, reduce the likelihood of model hallucinations, and more. You can also find many useful resources including code samples in the OpenAI Cookbook.
+
+FAQ
+How should I set the temperature parameter?
+Lower values for temperature result in more consistent outputs (e.g. 0.2), while higher values generate more diverse and creative results (e.g. 1.0). Select a temperature value based on the desired trade-off between coherence and creativity for your specific application. The temperature can range is from 0 to 2.
+
+Is fine-tuning available for the latest models?
+Yes, for some. Currently, you can only fine-tune gpt-3.5-turbo and our updated base models (babbage-002 and davinci-002). See the fine-tuning guide for more details on how to use fine-tuned models.
+
+Do you store the data that is passed into the API?
+As of March 1st, 2023, we retain your API data for 30 days but no longer use your data sent via the API to improve our models. Learn more in our data usage policy. Some endpoints offer zero retention.
+
+How can I make my application more safe?
+If you want to add a moderation layer to the outputs of the Chat API, you can follow our moderation guide to prevent content that violates OpenAI’s usage policies from being shown. We also encourage you to read our safety guide for more information on how to build safer systems.
+
+Should I use ChatGPT or the API?
+ChatGPT offers a chat interface for our models and a range of built-in features such as integrated browsing, code execution, plugins, and more. By contrast, using OpenAI’s API provides more flexibility but requires that you write code or send the requests to our models programmatically.
+
+Function calling
+Learn how to connect large language models to external tools.
+
+We are aware of an issue with non-ASCII outputs in gpt-3.5-turbo-1106 and gpt-4-1106-preview, and are working on implementing a fix. When these models generate a function call and the arguments include non-ASCII characters, the API may return Unicode escape sequences instead of the Unicode character directly. For example, arguments may look like {"location": "D\u00fcsseldorf"} instead of {"location": "Düsseldorf"}. Most applications should not be affected by this, as JSON parsers in languages like Python and Javascript will parse these strings into the correct objects. To stay updated on this topic, please subscribe to this community forum thread.
+Introduction
+In an API call, you can describe functions and have the model intelligently choose to output a JSON object containing arguments to call one or many functions. The Chat Completions API does not call the function; instead, the model generates JSON that you can use to call the function in your code.
+
+The latest models (gpt-3.5-turbo-1106 and gpt-4-1106-preview) have been trained to both detect when a function should to be called (depending on the input) and to respond with JSON that adheres to the function signature more closely than previous models. With this capability also comes potential risks. We strongly recommend building in user confirmation flows before taking actions that impact the world on behalf of users (sending an email, posting something online, making a purchase, etc).
+
+This guide is focused on function calling with the Chat Completions API, for details on function calling in the Assistants API, please see the Assistants Tools page.
+Common use cases
+Function calling allows you to more reliably get structured data back from the model. For example, you can:
+
+Create assistants that answer questions by calling external APIs (e.g. like ChatGPT Plugins)
+e.g. define functions like send_email(to: string, body: string), or get_current_weather(location: string, unit: 'celsius' | 'fahrenheit')
+Convert natural language into API calls
+e.g. convert "Who are my top customers?" to get_customers(min_revenue: int, created_before: string, limit: int) and call your internal API
+Extract structured data from text
+e.g. define a function called extract_data(name: string, birthday: string), or sql_query(query: string)
+...and much more!
+
+The basic sequence of steps for function calling is as follows:
+
+Call the model with the user query and a set of functions defined in the functions parameter.
+The model can choose to call one or more functions; if so, the content will be a stringified JSON object adhering to your custom schema (note: the model may hallucinate parameters).
+Parse the string into JSON in your code, and call your function with the provided arguments if they exist.
+Call the model again by appending the function response as a new message, and let the model summarize the results back to the user.
+Supported models
+Not all model versions are trained with function calling data. Function calling is supported with the following models:
+
+gpt-4
+gpt-4-1106-preview
+gpt-4-0613
+gpt-3.5-turbo
+gpt-3.5-turbo-1106
+gpt-3.5-turbo-0613
+In addition, parallel function calls is supported on the following models:
+
+gpt-4-1106-preview
+gpt-3.5-turbo-1106
+Parallel function calling
+Parallel function calling is the model's ability to perform multiple function calls together, allowing the effects and results of these function calls to be resolved in parallel. This is especially useful if functions take a long time, and reduces round trips with the API. For example, the model may call functions to get the weather in 3 different locations at the same time, which will result in a message with 3 function calls in the tool_calls array, each with an id. To respond to these function calls, add 3 new messages to the conversation, each containing the result of one function call, with a tool_call_id referencing the id from tool_calls.
+
+In this example, we define a single function get_current_weather. The model calls the function multiple times, and after sending the function response back to the model, we let it decide the next step. It responded with a user-facing message which was telling the user the temperature in San Francisco, Tokyo, and Paris. Depending on the query, it may choose to call a function again.
+
+If you want to force the model to call a specific function you can do so by setting tool_choice with a specific function name. You can also force the model to generate a user-facing message by setting tool_choice: "none". Note that the default behavior (tool_choice: "auto") is for the model to decide on its own whether to call a function and if so which function to call.
+
+Embeddings
+What are embeddings?
+OpenAI’s text embeddings measure the relatedness of text strings. Embeddings are commonly used for:
+
+Search (where results are ranked by relevance to a query string)
+Clustering (where text strings are grouped by similarity)
+Recommendations (where items with related text strings are recommended)
+Anomaly detection (where outliers with little relatedness are identified)
+Diversity measurement (where similarity distributions are analyzed)
+Classification (where text strings are classified by their most similar label)
+We are excited to announce that the new Assistants API comes with retrieval and built in message history management. If you don't want to worry about making and storing embeddings yourself, check out the Assistants API to learn more.
+An embedding is a vector (list) of floating point numbers. The distance between two vectors measures their relatedness. Small distances suggest high relatedness and large distances suggest low relatedness.
+
+Visit our pricing page to learn about Embeddings pricing. Requests are billed based on the number of tokens in the input sent.
+
+To see embeddings in action, check out our code samples
+
+Classification
+Topic clustering
+Search
+Recommendations
+How to get embeddings
+To get an embedding, send your text string to the embeddings API endpoint along with the embedding model ID (text-embedding-ada-002). The response will contain an embedding, which you can extract, save, and use.
+
+Example requests:
+
+Example: Getting embeddings
+python
+
+python
+from openai import OpenAI
+client = OpenAI()
+
+response = client.embeddings.create(
+    input="Your text string goes here",
+    model="text-embedding-ada-002"
+)
+
+print(response.data[0].embedding)
+Example response:
+
+{
+  "data": [
+    {
+      "embedding": [
+        -0.006929283495992422,
+        -0.005336422007530928,
+        ...
+        -4.547132266452536e-05,
+        -0.024047505110502243
+      ],
+      "index": 0,
+      "object": "embedding"
+    }
+  ],
+  "model": "text-embedding-ada-002",
+  "object": "list",
+  "usage": {
+    "prompt_tokens": 5,
+    "total_tokens": 5
+  }
+}
+See more Python code examples in the OpenAI Cookbook.
+
+When using OpenAI embeddings, please keep in mind their limitations and risks.
+
+Embedding models
+OpenAI offers a powerful second-generation embedding model (denoted by -002 in the model ID). It’s better, cheaper, and simpler to use than previous embeddings models. Read the blog post announcement.
+
+MODEL GENERATION	TOKENIZER	MAX INPUT TOKENS	KNOWLEDGE CUTOFF
+V2	cl100k_base	8191	Sep 2021
+V1	GPT-2/GPT-3	2046	Aug 2020
+Usage is priced per input token, at a rate of $0.0004 per 1000 tokens, or about ~3,000 pages per US dollar (assuming ~800 tokens per page):
+
+MODEL	ROUGH PAGES PER DOLLAR	EXAMPLE PERFORMANCE ON BEIR SEARCH EVAL
+text-embedding-ada-002	3000	53.9
+Use cases
+Here we show some representative use cases. We will use the Amazon fine-food reviews dataset for the following examples.
+
+Obtaining the embeddings
+The dataset contains a total of 568,454 food reviews Amazon users left up to October 2012. We will use a subset of 1,000 most recent reviews for illustration purposes. The reviews are in English and tend to be positive or negative. Each review has a ProductId, UserId, Score, review title (Summary) and review body (Text). For example:
+
+PRODUCT ID	USER ID	SCORE	SUMMARY	TEXT
+B001E4KFG0	A3SGXH7AUHU8GW	5	Good Quality Dog Food	I have bought several of the Vitality canned...
+B00813GRG4	A1D87F6ZCVE5NK	1	Not as Advertised	Product arrived labeled as Jumbo Salted Peanut...
+We will combine the review summary and review text into a single combined text. The model will encode this combined text and output a single vector embedding.
+
+Get embeddings from dataset
+from openai import OpenAI
+client = OpenAI()
+
+def get_embedding(text, model="text-embedding-ada-002"):
+   text = text.replace("\n", " ")
+   return client.embeddings.create(input = [text], model=model).data[0].embedding
+
+df['ada_embedding'] = df.combined.apply(lambda x: get_embedding(x, model='text-embedding-ada-002'))
+df.to_csv('output/embedded_1k_reviews.csv', index=False)
+To load the data from a saved file, you can run the following:
+
+import pandas as pd
+
+df = pd.read_csv('output/embedded_1k_reviews.csv')
+df['ada_embedding'] = df.ada_embedding.apply(eval).apply(np.array)
+Data visualization in 2D
+Embedding as a text feature encoder for ML algorithms
+Classification using the embedding features
+Zero-shot classification
+Obtaining user and product embeddings for cold-start recommendation
+Clustering
+Text search using embeddings
+Code search using embeddings
+Recommendations using embeddings
+Limitations & risks
+Our embedding models may be unreliable or pose social risks in certain cases, and may cause harm in the absence of mitigations.
+
+Social bias
+Limitation: The models encode social biases, e.g. via stereotypes or negative sentiment towards certain groups.
+
+We found evidence of bias in our models via running the SEAT (May et al, 2019) and the Winogender (Rudinger et al, 2018) benchmarks. Together, these benchmarks consist of 7 tests that measure whether models contain implicit biases when applied to gendered names, regional names, and some stereotypes.
+
+For example, we found that our models more strongly associate (a) European American names with positive sentiment, when compared to African American names, and (b) negative stereotypes with black women.
+
+These benchmarks are limited in several ways: (a) they may not generalize to your particular use case, and (b) they only test for a very small slice of possible social bias.
+
+These tests are preliminary, and we recommend running tests for your specific use cases. These results should be taken as evidence of the existence of the phenomenon, not a definitive characterization of it for your use case. Please see our usage policies for more details and guidance.
+
+Blindness to recent events
+Limitation: Models lack knowledge of events that occurred after September 2021.
+
+Our models are trained on datasets that contain some information about real world events up until 9/2021. If you rely on the models representing recent events, then they may not perform well.
+
+Frequently asked questions
+How can I tell how many tokens a string has before I embed it?
+In Python, you can split a string into tokens with OpenAI's tokenizer tiktoken.
+
+Example code:
+
+import tiktoken
+
+def num_tokens_from_string(string: str, encoding_name: str) -> int:
+    """Returns the number of tokens in a text string."""
+    encoding = tiktoken.get_encoding(encoding_name)
+    num_tokens = len(encoding.encode(string))
+    return num_tokens
+
+num_tokens_from_string("tiktoken is great!", "cl100k_base")
+For second-generation embedding models like text-embedding-ada-002, use the cl100k_base encoding.
+
+More details and example code are in the OpenAI Cookbook guide how to count tokens with tiktoken.
+
+How can I retrieve K nearest embedding vectors quickly?
+For searching over many vectors quickly, we recommend using a vector database. You can find examples of working with vector databases and the OpenAI API in our Cookbook on GitHub.
+
+Vector database options include:
+
+Chroma, an open-source embeddings store
+Elasticsearch, a popular search/analytics engine and vector database
+Milvus, a vector database built for scalable similarity search
+Pinecone, a fully managed vector database
+Qdrant, a vector search engine
+Redis as a vector database
+Typesense, fast open source vector search
+Weaviate, an open-source vector search engine
+Zilliz, data infrastructure, powered by Milvus
+Which distance function should I use?
+We recommend cosine similarity. The choice of distance function typically doesn’t matter much.
+
+OpenAI embeddings are normalized to length 1, which means that:
+
+Cosine similarity can be computed slightly faster using just a dot product
+Cosine similarity and Euclidean distance will result in the identical rankings
+Can I share my embeddings online?
+Yes, customers own their input and output from our models, including in the case of embeddings. You are responsible for ensuring that the content you input to our API does not violate any applicable law or our Terms of Use.
+
+Fine-tuning
+Learn how to customize a model for your application.
+
+Introduction
+Fine-tuning lets you get more out of the models available through the API by providing:
+
+Higher quality results than prompting
+Ability to train on more examples than can fit in a prompt
+Token savings due to shorter prompts
+Lower latency requests
+OpenAI's text generation models have been pre-trained on a vast amount of text. To use the models effectively, we include instructions and sometimes several examples in a prompt. Using demonstrations to show how to perform a task is often called "few-shot learning."
+
+Fine-tuning improves on few-shot learning by training on many more examples than can fit in the prompt, letting you achieve better results on a wide number of tasks. Once a model has been fine-tuned, you won't need to provide as many examples in the prompt. This saves costs and enables lower-latency requests.
+
+At a high level, fine-tuning involves the following steps:
+
+Prepare and upload training data
+Train a new fine-tuned model
+Evaluate results and go back to step 1 if needed
+Use your fine-tuned model
+Visit our pricing page to learn more about how fine-tuned model training and usage are billed.
+
+What models can be fine-tuned?
+Fine-tuning for GPT-4 is in an experimental access program - eligible users can request access in the fine-tuning UI when creating a new fine-tuning job.
+Fine-tuning is currently available for the following models:
+
+gpt-3.5-turbo-1106 (recommended)
+gpt-3.5-turbo-0613
+babbage-002
+davinci-002
+gpt-4-0613 (experimental)
+You can also fine-tune a fine-tuned model which is useful if you acquire additional data and don't want to repeat the previous training steps.
+
+We expect gpt-3.5-turbo to be the right model for most users in terms of results and ease of use.
+
+When to use fine-tuning
+Fine-tuning OpenAI text generation models can make them better for specific applications, but it requires a careful investment of time and effort. We recommend first attempting to get good results with prompt engineering, prompt chaining (breaking complex tasks into multiple prompts), and function calling, with the key reasons being:
+
+There are many tasks at which our models may not initially appear to perform well, but results can be improved with the right prompts - thus fine-tuning may not be necessary
+Iterating over prompts and other tactics has a much faster feedback loop than iterating with fine-tuning, which requires creating datasets and running training jobs
+In cases where fine-tuning is still necessary, initial prompt engineering work is not wasted - we typically see best results when using a good prompt in the fine-tuning data (or combining prompt chaining / tool use with fine-tuning)
+Our prompt engineering guide provides a background on some of the most effective strategies and tactics for getting better performance without fine-tuning. You may find it helpful to iterate quickly on prompts in our playground.
+
+Common use cases
+Some common use cases where fine-tuning can improve results:
+
+Setting the style, tone, format, or other qualitative aspects
+Improving reliability at producing a desired output
+Correcting failures to follow complex prompts
+Handling many edge cases in specific ways
+Performing a new skill or task that’s hard to articulate in a prompt
+One high-level way to think about these cases is when it’s easier to "show, not tell". In the sections to come, we will explore how to set up data for fine-tuning and various examples where fine-tuning improves the performance over the baseline model.
+
+Another scenario where fine-tuning is effective is in reducing costs and / or latency, by replacing GPT-4 or by utilizing shorter prompts, without sacrificing quality. If you can achieve good results with GPT-4, you can often reach similar quality with a fine-tuned gpt-3.5-turbo model by fine-tuning on the GPT-4 completions, possibly with a shortened instruction prompt.
+
+Preparing your dataset
+Once you have determined that fine-tuning is the right solution (i.e. you’ve optimized your prompt as far as it can take you and identified problems that the model still has), you’ll need to prepare data for training the model. You should create a diverse set of demonstration conversations that are similar to the conversations you will ask the model to respond to at inference time in production.
+
+Each example in the dataset should be a conversation in the same format as our Chat Completions API, specifically a list of messages where each message has a role, content, and optional name. At least some of the training examples should directly target cases where the prompted model is not behaving as desired, and the provided assistant messages in the data should be the ideal responses you want the model to provide.
+
+Example format
+In this example, our goal is to create a chatbot that occasionally gives sarcastic responses, these are three training examples (conversations) we could create for a dataset:
+
+{"messages": [{"role": "system", "content": "Marv is a factual chatbot that is also sarcastic."}, {"role": "user", "content": "What's the capital of France?"}, {"role": "assistant", "content": "Paris, as if everyone doesn't know that already."}]}
+{"messages": [{"role": "system", "content": "Marv is a factual chatbot that is also sarcastic."}, {"role": "user", "content": "Who wrote 'Romeo and Juliet'?"}, {"role": "assistant", "content": "Oh, just some guy named William Shakespeare. Ever heard of him?"}]}
+{"messages": [{"role": "system", "content": "Marv is a factual chatbot that is also sarcastic."}, {"role": "user", "content": "How far is the Moon from Earth?"}, {"role": "assistant", "content": "Around 384,400 kilometers. Give or take a few, like that really matters."}]}
+The conversational chat format is required to fine-tune gpt-3.5-turbo. For babbage-002 and davinci-002, you can follow the prompt completion pair format as shown below.
+
+{"prompt": "<prompt text>", "completion": "<ideal generated text>"}
+{"prompt": "<prompt text>", "completion": "<ideal generated text>"}
+{"prompt": "<prompt text>", "completion": "<ideal generated text>"}
+Crafting prompts
+We generally recommend taking the set of instructions and prompts that you found worked best for the model prior to fine-tuning, and including them in every training example. This should let you reach the best and most general results, especially if you have relatively few (e.g. under a hundred) training examples.
+
+If you would like to shorten the instructions or prompts that are repeated in every example to save costs, keep in mind that the model will likely behave as if those instructions were included, and it may be hard to get the model to ignore those "baked-in" instructions at inference time.
+
+It may take more training examples to arrive at good results, as the model has to learn entirely through demonstration and without guided instructions.
+
+Example count recommendations
+To fine-tune a model, you are required to provide at least 10 examples. We typically see clear improvements from fine-tuning on 50 to 100 training examples with gpt-3.5-turbo but the right number varies greatly based on the exact use case.
+
+We recommend starting with 50 well-crafted demonstrations and seeing if the model shows signs of improvement after fine-tuning. In some cases that may be sufficient, but even if the model is not yet production quality, clear improvements are a good sign that providing more data will continue to improve the model. No improvement suggests that you may need to rethink how to set up the task for the model or restructure the data before scaling beyond a limited example set.
+
+Train and test splits
+After collecting the initial dataset, we recommend splitting it into a training and test portion. When submitting a fine-tuning job with both training and test files, we will provide statistics on both during the course of training. These statistics will be your initial signal of how much the model is improving. Additionally, constructing a test set early on will be useful in making sure you are able to evaluate the model after training, by generating samples on the test set.
+
+Token limits
+Token limits depend on the model you select. For gpt-3.5-turbo-1106, the maximum context length is 16,385 so each training example is also limited to 16,385 tokens. For gpt-3.5-turbo-0613, each training example is limited to 4,096 tokens. Examples longer than the default will be truncated to the maximum context length which removes tokens from the end of the training example(s). To be sure that your entire training example fits in context, consider checking that the total token counts in the message contents are under the limit.
+
+You can compute token counts using our counting tokens notebook from the OpenAI cookbook.
+
+Estimate costs
+Please refer to the pricing page for details on cost per 1k input and output tokens (we do to charge for tokens that are part of the validation data). To estimate the costs for a specific fine-tuning job, use the following formula:
+
+base cost per 1k tokens * number of tokens in the input file * number of epochs trained
+
+For a training file with 100,000 tokens trained over 3 epochs, the expected cost would be ~$2.40 USD.
+
+Check data formatting
+Once you have compiled a dataset and before you create a fine-tuning job, it is important to check the data formatting. To do this, we created a simple Python script which you can use to find potential errors, review token counts, and estimate the cost of a fine-tuning job.
+
+Fine-tuning data format validation
+Learn about fine-tuning data formatting
+Upload a training file
+Once you have the data validated, the file needs to be uploaded using the Files API in order to be used with a fine-tuning jobs:
+
+python
+
+python
+from openai import OpenAI
+client = OpenAI()
+
+client.files.create(
+  file=open("mydata.jsonl", "rb"),
+  purpose="fine-tune"
+)
+After you upload the file, it may take some time to process. While the file is processing, you can still create a fine-tuning job but it will not start until the file processing has completed.
+
+The maximum file upload size is 1 GB, though we do not suggest fine-tuning with that amount of data since you are unlikely to need that large of an amount to see improvements.
+
+Create a fine-tuned model
+After ensuring you have the right amount and structure for your dataset, and have uploaded the file, the next step is to create a fine-tuning job. We support creating fine-tuning jobs via the fine-tuning UI or programmatically.
+
+To start a fine-tuning job using the OpenAI SDK:
+
+python
+
+python
+from openai import OpenAI
+client = OpenAI()
+
+client.fine_tuning.jobs.create(
+  training_file="file-abc123",
+  model="gpt-3.5-turbo"
+)
+In this example, model is the name of the model you want to fine-tune (gpt-3.5-turbo, babbage-002, davinci-002, or an existing fine-tuned model) and training_file is the file ID that was returned when the training file was uploaded to the OpenAI API. You can customize your fine-tuned model's name using the suffix parameter.
+
+To set additional fine-tuning parameters like the validation_file or hyperparameters, please refer to the API specification for fine-tuning.
+
+After you've started a fine-tuning job, it may take some time to complete. Your job may be queued behind other jobs in our system, and training a model can take minutes or hours depending on the model and dataset size. After the model training is completed, the user who created the fine-tuning job will receive an email confirmation.
+
+In addition to creating a fine-tuning job, you can also list existing jobs, retrieve the status of a job, or cancel a job.
+
+python
+
+python
+from openai import OpenAI
+client = OpenAI()
+
+# List 10 fine-tuning jobs
+client.fine_tuning.jobs.list(limit=10)
+
+# Retrieve the state of a fine-tune
+client.fine_tuning.jobs.retrieve("ftjob-abc123")
+
+# Cancel a job
+client.fine_tuning.jobs.cancel("ftjob-abc123")
+
+# List up to 10 events from a fine-tuning job
+client.fine_tuning.jobs.list_events(fine_tuning_job_id="ftjob-abc123", limit=10)
+
+# Delete a fine-tuned model (must be an owner of the org the model was created in)
+client.models.delete("ft:gpt-3.5-turbo:acemeco:suffix:abc123")
+Use a fine-tuned model
+When a job has succeeded, you will see the fine_tuned_model field populated with the name of the model when you retrieve the job details. You may now specify this model as a parameter to in the Chat Completions (for gpt-3.5-turbo) or legacy Completions API (for babbage-002 and davinci-002), and make requests to it using the Playground.
+
+After your job is completed, the model should be available right away for inference use. In some cases, it may take several minutes for your model to become ready to handle requests. If requests to your model time out or the model name cannot be found, it is likely because your model is still being loaded. If this happens, try again in a few minutes.
+
+python
+
+python
+from openai import OpenAI
+client = OpenAI()
+
+response = client.chat.completions.create(
+  model="ft:gpt-3.5-turbo:my-org:custom_suffix:id",
+  messages=[
+    {"role": "system", "content": "You are a helpful assistant."},
+    {"role": "user", "content": "Hello!"}
+  ]
+)
+print(completion.choices[0].message)
+You can start making requests by passing the model name as shown above and in our GPT guide.
+
+Analyzing your fine-tuned model
+We provide the following training metrics computed over the course of training: training loss, training token accuracy, test loss, and test token accuracy. These statistics are meant to provide a sanity check that training went smoothly (loss should decrease, token accuracy should increase). While an active fine-tuning jobs is running, you can view an event object which contains some useful metrics:
+
+{
+    "object": "fine_tuning.job.event",
+    "id": "ftevent-abc-123",
+    "created_at": 1693582679,
+    "level": "info",
+    "message": "Step 100/100: training loss=0.00",
+    "data": {
+        "step": 100,
+        "train_loss": 1.805623287509661e-5,
+        "train_mean_token_accuracy": 1.0
+    },
+    "type": "metrics"
+}
+After a fine-tuning job has finished, you can also see metrics around how the training process went by querying a fine-tuning job, extracting a file ID from the result_files, and then retrieving that files content. Each results CSV file has the following columns: step, train_loss, train_accuracy, valid_loss, and valid_mean_token_accuracy.
+
+step,train_loss,train_accuracy,valid_loss,valid_mean_token_accuracy
+1,1.52347,0.0,,
+2,0.57719,0.0,,
+3,3.63525,0.0,,
+4,1.72257,0.0,,
+5,1.52379,0.0,,
+While metrics can he helpful, evaluating samples from the fine-tuned model provides the most relevant sense of model quality. We recommend generating samples from both the base model and the fine-tuned model on a test set, and comparing the samples side by side. The test set should ideally include the full distribution of inputs that you might send to the model in a production use case. If manual evaluation is too time-consuming, consider using our Evals library to automate future evaluations.
+
+Iterating on data quality
+If the results from a fine-tuning job are not as good as you expected, consider the following ways to adjust the training dataset:
+
+Collect examples to target remaining issues
+If the model still isn’t good at certain aspects, add training examples that directly show the model how to do these aspects correctly
+Scrutinize existing examples for issues
+If your model has grammar, logic, or style issues, check if your data has any of the same issues. For instance, if the model now says "I will schedule this meeting for you" (when it shouldn’t), see if existing examples teach the model to say it can do new things that it can’t do
+Consider the balance and diversity of data
+If 60% of the assistant responses in the data says "I cannot answer this", but at inference time only 5% of responses should say that, you will likely get an overabundance of refusals
+Make sure your training examples contain all of the information needed for the response
+If we want the model to compliment a user based on their personal traits and a training example includes assistant compliments for traits not found in the preceding conversation, the model may learn to hallucinate information
+Look at the agreement / consistency in the training examples
+If multiple people created the training data, it’s likely that model performance will be limited by the level of agreement / consistency between people. For instance, in a text extraction task, if people only agreed on 70% of extracted snippets, the model would likely not be able to do better than this
+Make sure your all of your training examples are in the same format, as expected for inference
+Iterating on data quantity
+Once you’re satisfied with the quality and distribution of the examples, you can consider scaling up the number of training examples. This tends to help the model learn the task better, especially around possible "edge cases". We expect a similar amount of improvement every time you double the number of training examples. You can loosely estimate the expected quality gain from increasing the training data size by:
+
+Fine-tuning on your current dataset
+Fine-tuning on half of your current dataset
+Observing the quality gap between the two
+In general, if you have to make a trade-off, a smaller amount of high-quality data is generally more effective than a larger amount of low-quality data.
+
+Iterating on hyperparameters
+We allow you to specify the following hyperparameters:
+
+epochs
+learning rate multiplier
+batch size
+We recommend initially training without specifying any of these, allowing us to pick a default for you based on dataset size, then adjusting if you observe the following:
+
+If the model does not follow the training data as much as expected increase the number of epochs by 1 or 2
+This is more common for tasks for which there is a single ideal completion (or a small set of ideal completions which are similar). Some examples include classification, entity extraction, or structured parsing. These are often tasks for which you can compute a final accuracy metric against a reference answer.
+If the model becomes less diverse than expected decrease the number of epochs by 1 or 2
+This is more common for tasks for which there are a wide range of possible good completions
+If the model does not appear to be converging, increase the learning rate multiplier
+You can set the hyperparameters as is shown below:
+
+python
+
+python
+from openai import OpenAI
+client = OpenAI()
+
+client.fine_tuning.jobs.create(
+  training_file="file-abc123",
+  model="gpt-3.5-turbo",
+  hyperparameters={
+    "n_epochs":2
+  }
+)
+Fine-tuning examples
+Now that we have explored the basics of the fine-tuning API, let’s look at going through the fine-tuning lifecycle for a few different use cases.
+
+Style and tone
+Structured output
+Function calling
+Migration of legacy models
+For users migrating from /v1/fine-tunes to the updated /v1/fine_tuning/jobs API and newer models, the main difference you can expect is the updated API. The legacy prompt completion pair data format has been retained for the updated babbage-002 and davinci-002 models to ensure a smooth transition. The new models will support fine-tuning with 4k token context and have a knowledge cutoff of September 2021.
+
+For most tasks, you should expect to get better performance from gpt-3.5-turbo than from the GPT base models.
+
+FAQ
+When should I use fine-tuning vs embeddings / retrieval augmented generation?
+Embeddings with retrieval is best suited for cases when you need to have a large database of documents with relevant context and information.
+
+By default OpenAI’s models are trained to be helpful generalist assistants. Fine-tuning can be used to make a model which is narrowly focused, and exhibits specific ingrained behavior patterns. Retrieval strategies can be used to make new information available to a model by providing it with relevant context before generating its response. Retrieval strategies are not an alternative to fine-tuning and can in fact be complementary to it.
+
+You can explore the differences between these options further in our Developer Day talk:
+
+
+Can I fine-tune GPT-4 or GPT-3.5-Turbo-16k?
+GPT-4 fine-tuning is in experimental access and eligible developers can request access via the fine-tuning UI. Currently, gpt-3.5-turbo-1106 supports up to 16K context examples.
+
+How do I know if my fine-tuned model is actually better than the base model?
+We recommend generating samples from both the base model and the fine-tuned model on a test set of chat conversations, and comparing the samples side by side. For more comprehensive evaluations, consider using the OpenAI evals framework to create an eval specific to your use case.
+
+Can I continue fine-tuning a model that has already been fine-tuned?
+Yes, you can pass the name of a fine-tuned model into the model parameter when creating a fine-tuning job. This will start a new fine-tuning job using the fine-tuned model as the starting point.
+
+How can I estimate the cost of fine-tuning a model?
+Please refer to the estimate cost section above.
+
+Does the new fine-tuning endpoint still work with Weights & Biases for tracking metrics?
+No, we do not currently support this integration but are working to enable it in the near future.
+
+How many fine-tuning jobs can I have running at once?
+Please refer to our rate limit guide for the most up to date information on the limits.
+
+How do rate limits work on fine-tuned models?
+A fine-tuned model pulls from the same shared rate limit as the model it is based off of. For example, if you use half your TPM rate limit in a given time period with the standard gpt-3.5-turbo model, any model(s) you fine-tuned from gpt-3.5-turbo would only have the remaining half of the TPM rate limit accessible since the capacity is shared across all models of the same type.
+
+Put another way, having fine-tuned models does not give you more capacity to use our models from a total throughput perspective.
+
+Image generation
+Learn how to generate or manipulate images with DALL·E in the API.
+
+Looking to generate images in ChatGPT? Head to chat.openai.com.
+Introduction
+The Images API provides three methods for interacting with images:
+
+Creating images from scratch based on a text prompt (DALL·E 3 and DALL·E 2)
+Creating edited versions of images by having the model replace some areas of a pre-existing image, based on a new text prompt (DALL·E 2 only)
+Creating variations of an existing image (DALL·E 2 only)
+This guide covers the basics of using these three API endpoints with useful code samples. To try DALL·E 3, head to ChatGPT. To try DALL·E 2, check out the DALL·E preview app.
+
+Usage
+Generations
+The image generations endpoint allows you to create an original image given a text prompt. When using DALL·E 3, images can have a size of 1024x1024, 1024x1792 or 1792x1024 pixels.
+
+By default, images are generated at standard quality, but when using DALL·E 3 you can set quality: "hd" for enhanced detail. Square, standard quality images are the fastest to generate.
+
+You can request 1 image at a time with DALL·E 3 (request more by making parallel requests) or up to 10 images at a time using DALL·E 2 with the n parameter.
+
+Generate an image
+python
+
+python
+from openai import OpenAI
+client = OpenAI()
+
+response = client.images.generate(
+  model="dall-e-3",
+  prompt="a white siamese cat",
+  size="1024x1024",
+  quality="standard",
+  n=1,
+)
+
+image_url = response.data[0].url
+What is new with DALL·E 3
+Explore what is new with DALL·E 3 in the OpenAI Cookbook
+Prompting
+With the release of DALL·E 3, the model now takes in the default prompt provided and automatically re-write it for safety reasons, and to add more detail (more detailed prompts generally result in higher quality images).
+
+While it is not currently possible to disable this feature, you can use prompting to get outputs closer to your requested image by adding the following to your prompt: I NEED to test how the tool works with extremely simple prompts. DO NOT add any detail, just use it AS-IS:.
+
+The updated prompt is visible in the revised_prompt field of the data response object.
+
+Example DALL·E 3 generations
+PROMPT	GENERATION
+A photograph of a white Siamese cat.
+Each image can be returned as either a URL or Base64 data, using the response_format parameter. URLs will expire after an hour.
+
+Edits (DALL·E 2 only)
+Also known as "inpainting", the image edits endpoint allows you to edit or extend an image by uploading an image and mask indicating which areas should be replaced. The transparent areas of the mask indicate where the image should be edited, and the prompt should describe the full new image, not just the erased area. This endpoint can enable experiences like the editor in our DALL·E preview app.
+
+Edit an image
+python
+
+python
+from openai import OpenAI
+client = OpenAI()
+
+response = client.images.edit((
+  model="dall-e-2",
+  image=open("sunlit_lounge.png", "rb"),
+  mask=open("mask.png", "rb"),
+  prompt="A sunlit indoor lounge area with a pool containing a flamingo",
+  n=1,
+  size="1024x1024"
+)
+image_url = response.data[0].url
+IMAGE	MASK	OUTPUT
+
+Prompt: a sunlit indoor lounge area with a pool containing a flamingo
+
+The uploaded image and mask must both be square PNG images less than 4MB in size, and also must have the same dimensions as each other. The non-transparent areas of the mask are not used when generating the output, so they don’t necessarily need to match the original image like the example above.
+
+Variations (DALL·E 2 only)
+The image variations endpoint allows you to generate a variation of a given image.
+
+Generate an image variation
+python
+
+python
+from openai import OpenAI
+client = OpenAI()
+
+response = client.images.create_variation(
+  image=open("image_edit_original.png", "rb"),
+  n=2,
+  size="1024x1024"
+)
+
+image_url = response.data[0].url
+IMAGE	OUTPUT
+
+Similar to the edits endpoint, the input image must be a square PNG image less than 4MB in size.
+
+Content moderation
+Prompts and images are filtered based on our content policy, returning an error when a prompt or image is flagged.
+
+Language-specific tips
+Using in-memory image data
+The Node.js examples in the guide above use the fs module to read image data from disk. In some cases, you may have your image data in memory instead. Here's an example API call that uses image data stored in a Node.js Buffer object:
+
+import OpenAI from "openai";
+
+const openai = new OpenAI();
+
+// This is the Buffer object that contains your image data
+const buffer = [your image data];
+
+// Set a `name` that ends with .png so that the API knows it's a PNG image
+buffer.name = "image.png";
+
+async function main() {
+  const image = await openai.images.createVariation({ model: "dall-e-2", image: buffer, n: 1, size: "1024x1024" });
+  console.log(image.data);
+}
+main();
+Working with TypeScript
+If you're using TypeScript, you may encounter some quirks with image file arguments. Here's an example of working around the type mismatch by explicitly casting the argument:
+
+import fs from "fs";
+import OpenAI from "openai";
+
+const openai = new OpenAI();
+
+async function main() {
+  // Cast the ReadStream to `any` to appease the TypeScript compiler
+  const image = await openai.images.createVariation({
+    image: fs.createReadStream("image.png") as any,
+  });
+
+  console.log(image.data);
+}
+main();
+And here's a similar example for in-memory image data:
+
+import fs from "fs";
+import OpenAI from "openai";
+
+const openai = new OpenAI();
+
+// This is the Buffer object that contains your image data
+const buffer: Buffer = [your image data];
+
+// Cast the buffer to `any` so that we can set the `name` property
+const file: any = buffer;
+
+// Set a `name` that ends with .png so that the API knows it's a PNG image
+file.name = "image.png";
+
+async function main() {
+  const image = await openai.images.createVariation({
+    file,
+    1,
+    "1024x1024"
+  });
+  console.log(image.data);
+}
+main();
+Error handling
+API requests can potentially return errors due to invalid inputs, rate limits, or other issues. These errors can be handled with a try...catch statement, and the error details can be found in either error.response or error.message:
+
+import fs from "fs";
+import OpenAI from "openai";
+
+const openai = new OpenAI();
+
+try {
+    const response = openai.images.createVariation(
+        fs.createReadStream("image.png"),
+        1,
+        "1024x1024"
+    );
+    console.log(response.data.data[0].url);
+} catch (error) {
+    if (error.response) {
+        console.log(error.response.status);
+        console.log(error.response.data);
+    } else {
+        console.log(error.message);
+    }
+}
+
+Vision
+Learn how to use GPT-4 to understand images
+
+Introduction
+GPT-4 with Vision, sometimes referred to as GPT-4V or gpt-4-vision-preview in the API, allows the model to take in images and answer questions about them. Historically, language model systems have been limited by taking in a single input modality, text. For many use cases, this constrained the areas where models like GPT-4 could be used.
+
+GPT-4 with vision is currently available to all developers who have access to GPT-4 via the gpt-4-vision-preview model and the Chat Completions API which has been updated to support image inputs. Note that the Assistants API does not currently support image inputs.
+
+It is important to note the following:
+
+GPT-4 Turbo with vision may behave slightly differently than GPT-4 Turbo, due to a system message we automatically insert into the conversation
+GPT-4 Turbo with vision is the same as the GPT-4 Turbo preview model and performs equally as well on text tasks but has vision capabilities added
+Vision is just one of many capabilities the model has
+Currently, GPT-4 Turbo with vision does not support the message.name parameter, functions/tools, response_format parameter, and we currently set a low max_tokens default which you can override.
+Quick start
+Images are made available to the model in two main ways: by passing a link to the image or by passing the base64 encoded image directly in the request. Images can be passed in the user, system and assistant messages. Currently we don't support images in the first system message but this may change in the future.
+
+What's in this image?
+python
+
+python
+from openai import OpenAI
+
+client = OpenAI()
+
+response = client.chat.completions.create(
+  model="gpt-4-vision-preview",
+  messages=[
+    {
+      "role": "user",
+      "content": [
+        {"type": "text", "text": "What’s in this image?"},
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg",
+          },
+        },
+      ],
+    }
+  ],
+  max_tokens=300,
+)
+
+print(response.choices[0])
+The model is best at answering general questions about what is present in the images. While it does understand the relationship between objects in images, it is not yet optimized to answer detailed questions about the location of certain objects in an image. For example, you can ask it what color a car is or what some ideas for dinner might be based on what is in you fridge, but if you show it an image of a room and ask it where the chair is, it may not answer the question correctly.
+
+It is important to keep in mind the limitations of the model as you explore what use-cases visual understanding can be applied to.
+
+Video understanding with vision
+Learn how to use use GPT-4 with Vision to understand videos in the OpenAI Cookbook
+Uploading base 64 encoded images
+If you have an image or set of images locally, you can pass those to the model in base 64 encoded format, here is an example of this in action:
+
+import base64
+import requests
+
+# OpenAI API Key
+api_key = "YOUR_OPENAI_API_KEY"
+
+# Function to encode the image
+def encode_image(image_path):
+  with open(image_path, "rb") as image_file:
+    return base64.b64encode(image_file.read()).decode('utf-8')
+
+# Path to your image
+image_path = "path_to_your_image.jpg"
+
+# Getting the base64 string
+base64_image = encode_image(image_path)
+
+headers = {
+  "Content-Type": "application/json",
+  "Authorization": f"Bearer {api_key}"
+}
+
+payload = {
+  "model": "gpt-4-vision-preview",
+  "messages": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "What’s in this image?"
+        },
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": f"data:image/jpeg;base64,{base64_image}"
+          }
+        }
+      ]
+    }
+  ],
+  "max_tokens": 300
+}
+
+response = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=payload)
+
+print(response.json())
+Multiple image inputs
+The Chat Completions API is capable of taking in and processing multiple image inputs in both base64 encoded format or as an image URL. The model will process each image and use the information from all of them to answer the question.
+
+Multiple image inputs
+python
+
+python
+from openai import OpenAI
+
+client = OpenAI()
+response = client.chat.completions.create(
+  model="gpt-4-vision-preview",
+  messages=[
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "What are in these images? Is there any difference between them?",
+        },
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg",
+          },
+        },
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg",
+          },
+        },
+      ],
+    }
+  ],
+  max_tokens=300,
+)
+print(response.choices[0])
+Here the model is shown two copies of the same image and can answer questions about both or each of the images independently.
+
+Low or high fidelity image understanding
+By controlling the detail parameter, which has three options, low, high, or auto, you have control over how the model processes the image and generates its textual understanding. By default, the model will use the auto setting which will look at the image input size and decide if it should use the low or high setting.
+
+low will disable the “high res” model. The model will receive a low-res 512px x 512px version of the image, and represent the image with a budget of 65 tokens. This allows the API to return faster responses and consume fewer input tokens for use cases that do not require high detail.
+high will enable “high res” mode, which first allows the model to see the low res image and then creates detailed crops of input images as 512px squares based on the input image size. Each of the detailed crops uses twice the token budget (65 tokens) for a total of 129 tokens.
+Choosing the detail level
+python
+
+python
+from openai import OpenAI
+
+client = OpenAI()
+
+response = client.chat.completions.create(
+  model="gpt-4-vision-preview",
+  messages=[
+    {
+      "role": "user",
+      "content": [
+        {"type": "text", "text": "What’s in this image?"},
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg",
+            "detail": "high"
+          },
+        },
+      ],
+    }
+  ],
+  max_tokens=300,
+)
+
+print(response.choices[0].message.content)
+Managing images
+The Chat Completions API, unlike the Assistants API, is not stateful. That means you have to manage the messages (including images) you pass to the model yourself. If you want to pass the same image to the model multiple times, you will have to pass the image each time you make a request to the API.
+
+For long running conversations, we suggest passing images via URL's instead of base64. The latency of the model can also be improved by downsizing your images ahead of time to be less than the maximum size they are expected them to be. For low res mode, we expect a 512px x 512px image. For high res mode, the short side of the image should be less than 768px and the long side should be less than 2,000px.
+
+After an image has been processed by the model, it is deleted from OpenAI servers and not retained. We do not use data uploaded via the OpenAI API to train our models.
+
+Limitations
+While GPT-4 with vision is powerful and can be used in many situations, it is important to understand the limitations of the model. Here are some of the limitations we are aware of:
+
+Medical images: The model is not suitable for interpreting specialized medical images like CT scans and shouldn't be used for medical advice.
+Non-English: The model may not perform optimally when handling images with text of non-Latin alphabets, such as Japanese or Korean.
+Small text: Enlarge text within the image to improve readability, but avoid cropping important details.
+Rotation: The model may misinterpret rotated / upside-down text or images.
+Visual elements: The model may struggle to understand graphs or text where colors or styles like solid, dashed, or dotted lines vary.
+Spatial reasoning: The model struggles with tasks requiring precise spatial localization, such as identifying chess positions.
+Accuracy: The model may generate incorrect descriptions or captions in certain scenarios.
+Image shape: The model struggles with panoramic and fisheye images.
+Metadata and resizing: The model doesn't process original file names or metadata, and images are resized before analysis, affecting their original dimensions.
+Counting: May give approximate counts for objects in images.
+CAPTCHAS: For safety reasons, we have implemented a system to block the submission of CAPTCHAs.
+Calculating costs
+Image inputs are metered and charged in tokens, just as text inputs are. The token cost of a given image is determined by two factors: its size, and the detail option on each image_url block. All images with detail: low cost 85 tokens each. detail: high images are first scaled to fit within a 2048 x 2048 square, maintaining their aspect ratio. Then, they are scaled such that the shortest side of the image is 768px long. Finally, we count how many 512px squares the image consists of. Each of those squares costs 170 tokens. Another 85 tokens are always added to the final total.
+
+Here are some examples demonstrating the above.
+
+A 1024 x 1024 square image in detail: high mode costs 765 tokens
+1024 is less than 2048, so there is no initial resize.
+The shortest side is 1024, so we scale the image down to 768 x 768.
+4 512px square tiles are needed to represent the image, so the final token cost is 170 * 4 + 85 = 765.
+A 2048 x 4096 image in detail: high mode costs 1105 tokens
+We scale down the image to 1024 x 2048 to fit within the 2048 square.
+The shortest side is 1024, so we further scale down to 768 x 1536.
+6 512px tiles are needed, so the final token cost is 170 * 6 + 85 = 1105.
+A 4096 x 8192 image in detail: low most costs 85 tokens
+Regardless of input size, low detail images are a fixed cost.
+FAQ
+Can I fine-tune the image capabilities in gpt-4?
+No, we do not support fine-tuning the image capabilities of gpt-4 at this time.
+
+Can I use gpt-4 to generate images?
+No, you can use dall-e-3 to generate images and gpt-4-vision-preview to understand images.
+
+What type of files can I upload?
+We currently support PNG (.png), JPEG (.jpeg and .jpg), WEBP (.webp), and non-animated GIF (.gif).
+
+Is there a limit to the size of the image I can upload?
+Yes, we restrict image uploads to 20MB per image.
+
+Can I delete an image I uploaded?
+No, we will delete the image for you automatically after it has been processed by the model.
+
+Where can I learn more about the considerations of GPT-4 with Vision?
+You can find details about our evaluations, preparation, and mitigation work in the GPT-4 with Vision system card.
+
+We have further implemented a system to block the submission of CAPTCHAs.
+
+How do rate limits for GPT-4 with Vision work?
+We process images at the token level, so each image we process counts towards your tokens per minute (TPM) limit. See the calculating costs section for details on the formula used to determine token count per image.
+
+Can GPT-4 with Vision understand image metadata?
+No, the model does not receive image metadata.
+
+What happens if my image is unclear?
+If an image is ambiguous or unclear, the model will do its best to interpret it. However, the results may be less accurate. A good rule of thumb is that if an average human cannot see the info in an image at the resolutions used in low/high res mode, then the model cannot either.
+
+Text to speech
+Learn how to turn text into lifelike spoken audio
+
+Introduction
+The Audio API provides a speech endpoint based on our TTS (text-to-speech) model. It comes with 6 built-in voices and can be used to:
+
+Narrate a written blog post
+Produce spoken audio in multiple languages
+Give real time audio output using streaming
+Here is an example of the alloy voice:
+
+Please note that our usage policies require you to provide a clear disclosure to end users that the TTS voice they are hearing is AI-generated and not a human voice.
+Quick start
+The speech endpoint takes in three key inputs: the model, the text that should be turned into audio, and the voice to be used for the audio generation. A simple request would look like the following:
+
+Generate spoken audio from input text
+python
+
+python
+from pathlib import Path
+from openai import OpenAI
+client = OpenAI()
+
+speech_file_path = Path(__file__).parent / "speech.mp3"
+response = client.audio.speech.create(
+  model="tts-1",
+  voice="alloy",
+  input="Today is a wonderful day to build something people love!"
+)
+
+response.stream_to_file(speech_file_path)
+By default, the endpoint will output a MP3 file of the spoken audio but it can also be configured to output any of our supported formats.
+
+Audio quality
+For real-time applications, the standard tts-1 model provides the lowest latency but at a lower quality than the tts-1-hd model. Due to the way the audio is generated, tts-1 is likely to generate content that has more static in certain situations than tts-1-hd. In some cases, the audio may not have noticeable differences depending on your listening device and the individual person.
+
+Voice options
+Experiment with different voices (alloy, echo, fable, onyx, nova, and shimmer) to find one that matches your desired tone and audience. The current voices are optimized for English.
+
+Alloy
+Echo
+Fable
+Onyx
+Nova
+Shimmer
+Supported output formats
+The default response format is "mp3", but other formats like "opus", "aac", or "flac" are available.
+
+Opus: For internet streaming and communication, low latency.
+AAC: For digital audio compression, preferred by YouTube, Android, iOS.
+FLAC: For lossless audio compression, favored by audio enthusiasts for archiving.
+Supported languages
+The TTS model generally follows the Whisper model in terms of language support. Whisper supports the following languages and performs well despite the current voices being optimized for English:
+
+Afrikaans, Arabic, Armenian, Azerbaijani, Belarusian, Bosnian, Bulgarian, Catalan, Chinese, Croatian, Czech, Danish, Dutch, English, Estonian, Finnish, French, Galician, German, Greek, Hebrew, Hindi, Hungarian, Icelandic, Indonesian, Italian, Japanese, Kannada, Kazakh, Korean, Latvian, Lithuanian, Macedonian, Malay, Marathi, Maori, Nepali, Norwegian, Persian, Polish, Portuguese, Romanian, Russian, Serbian, Slovak, Slovenian, Spanish, Swahili, Swedish, Tagalog, Tamil, Thai, Turkish, Ukrainian, Urdu, Vietnamese, and Welsh.
+
+You can generate spoken audio in these languages by providing the input text in the language of your choice.
+
+Streaming real time audio
+The Speech API provides support for real time audio streaming using chunk transfer encoding. This means that the audio is able to be played before the full file has been generated and made accessible.
+
+from openai import OpenAI
+
+client = OpenAI()
+
+response = client.audio.speech.create(
+    model="tts-1",
+    voice="alloy",
+    input="Hello world! This is a streaming test.",
+)
+
+response.stream_to_file("output.mp3")
+FAQ
+How can I control the emotional range of the generated audio?
+There is no direct mechanism to control the emotional output of the audio generated. Certain factors may influence the output audio like capitalization or grammar but our internal tests with these have yielded mixed results.
+
+Can I create a custom copy of my own voice?
+No, this is not something we support.
+
+Do I own the outputted audio files?
+Yes, like with all outputs from our API, the person who created them owns the output. You are still required to inform end users that they are hearing audio generated by AI and not a real person talking to them.
+
+Speech to text
+Learn how to turn audio into text
+
+Introduction
+The Audio API provides two speech to text endpoints, transcriptions and translations, based on our state-of-the-art open source large-v2 Whisper model. They can be used to:
+
+Transcribe audio into whatever language the audio is in.
+Translate and transcribe the audio into english.
+File uploads are currently limited to 25 MB and the following input file types are supported: mp3, mp4, mpeg, mpga, m4a, wav, and webm.
+
+Quickstart
+Transcriptions
+The transcriptions API takes as input the audio file you want to transcribe and the desired output file format for the transcription of the audio. We currently support multiple input and output file formats.
+
+Transcribe audio
+python
+
+python
+from openai import OpenAI
+client = OpenAI()
+
+audio_file= open("/path/to/file/audio.mp3", "rb")
+transcript = client.audio.transcriptions.create(
+  model="whisper-1",
+  file=audio_file
+)
+By default, the response type will be json with the raw text included.
+
+{
+  "text": "Imagine the wildest idea that you've ever had, and you're curious about how it might scale to something that's a 100, a 1,000 times bigger.
+....
+}
+The Audio API also allows you to set additional parameters in a request. For example, if you want to set the response_format as text, your request would look like the following:
+
+Additional options
+python
+
+python
+from openai import OpenAI
+client = OpenAI()
+
+audio_file = open("speech.mp3", "rb")
+transcript = client.audio.transcriptions.create(
+  model="whisper-1",
+  file=audio_file,
+  response_format="text"
+)
+The API Reference includes the full list of available parameters.
+
+Translations
+The translations API takes as input the audio file in any of the supported languages and transcribes, if necessary, the audio into English. This differs from our /Transcriptions endpoint since the output is not in the original input language and is instead translated to English text.
+
+Translate audio
+python
+
+python
+from openai import OpenAI
+client = OpenAI()
+
+audio_file= open("/path/to/file/german.mp3", "rb")
+transcript = client.audio.translations.create(
+  model="whisper-1",
+  file=audio_file
+)
+In this case, the inputted audio was german and the outputted text looks like:
+
+Hello, my name is Wolfgang and I come from Germany. Where are you heading today?
+We only support translation into english at this time.
+
+Supported languages
+We currently support the following languages through both the transcriptions and translations endpoint:
+
+Afrikaans, Arabic, Armenian, Azerbaijani, Belarusian, Bosnian, Bulgarian, Catalan, Chinese, Croatian, Czech, Danish, Dutch, English, Estonian, Finnish, French, Galician, German, Greek, Hebrew, Hindi, Hungarian, Icelandic, Indonesian, Italian, Japanese, Kannada, Kazakh, Korean, Latvian, Lithuanian, Macedonian, Malay, Marathi, Maori, Nepali, Norwegian, Persian, Polish, Portuguese, Romanian, Russian, Serbian, Slovak, Slovenian, Spanish, Swahili, Swedish, Tagalog, Tamil, Thai, Turkish, Ukrainian, Urdu, Vietnamese, and Welsh.
+
+While the underlying model was trained on 98 languages, we only list the languages that exceeded <50% word error rate (WER) which is an industry standard benchmark for speech to text model accuracy. The model will return results for languages not listed above but the quality will be low.
+
+Longer inputs
+By default, the Whisper API only supports files that are less than 25 MB. If you have an audio file that is longer than that, you will need to break it up into chunks of 25 MB's or less or used a compressed audio format. To get the best performance, we suggest that you avoid breaking the audio up mid-sentence as this may cause some context to be lost.
+
+One way to handle this is to use the PyDub open source Python package to split the audio:
+
+from pydub import AudioSegment
+
+song = AudioSegment.from_mp3("good_morning.mp3")
+
+# PyDub handles time in milliseconds
+ten_minutes = 10 * 60 * 1000
+
+first_10_minutes = song[:ten_minutes]
+
+first_10_minutes.export("good_morning_10.mp3", format="mp3")
+OpenAI makes no guarantees about the usability or security of 3rd party software like PyDub.
+
+Prompting
+You can use a prompt to improve the quality of the transcripts generated by the Whisper API. The model will try to match the style of the prompt, so it will be more likely to use capitalization and punctuation if the prompt does too. However, the current prompting system is much more limited than our other language models and only provides limited control over the generated audio. Here are some examples of how prompting can help in different scenarios:
+
+Prompts can be very helpful for correcting specific words or acronyms that the model may misrecognize in the audio. For example, the following prompt improves the transcription of the words DALL·E and GPT-3, which were previously written as "GDP 3" and "DALI": "The transcript is about OpenAI which makes technology like DALL·E, GPT-3, and ChatGPT with the hope of one day building an AGI system that benefits all of humanity"
+To preserve the context of a file that was split into segments, you can prompt the model with the transcript of the preceding segment. This will make the transcript more accurate, as the model will use the relevant information from the previous audio. The model will only consider the final 224 tokens of the prompt and ignore anything earlier. For multilingual inputs, Whisper uses a custom tokenizer. For English only inputs, it uses the standard GPT-2 tokenizer which are both accessible through the open source Whisper Python package.
+Sometimes the model might skip punctuation in the transcript. You can avoid this by using a simple prompt that includes punctuation: "Hello, welcome to my lecture."
+The model may also leave out common filler words in the audio. If you want to keep the filler words in your transcript, you can use a prompt that contains them: "Umm, let me think like, hmm... Okay, here's what I'm, like, thinking."
+Some languages can be written in different ways, such as simplified or traditional Chinese. The model might not always use the writing style that you want for your transcript by default. You can improve this by using a prompt in your preferred writing style.
+Improving reliability
+As we explored in the prompting section, one of the most common challenges faced when using Whisper is the model often does not recognize uncommon words or acronyms. To address this, we have highlighted different techniques which improve the reliability of Whisper in these cases:
+
+Moderation
+Overview
+The moderations endpoint is a tool you can use to check whether content complies with OpenAI's usage policies. Developers can thus identify content that our usage policies prohibits and take action, for instance by filtering it.
+
+The models classifies the following categories:
+
+CATEGORY	DESCRIPTION
+hate	Content that expresses, incites, or promotes hate based on race, gender, ethnicity, religion, nationality, sexual orientation, disability status, or caste. Hateful content aimed at non-protected groups (e.g., chess players) is harrassment.
+hate/threatening	Hateful content that also includes violence or serious harm towards the targeted group based on race, gender, ethnicity, religion, nationality, sexual orientation, disability status, or caste.
+harassment	Content that expresses, incites, or promotes harassing language towards any target.
+harassment/threatening	Harassment content that also includes violence or serious harm towards any target.
+self-harm	Content that promotes, encourages, or depicts acts of self-harm, such as suicide, cutting, and eating disorders.
+self-harm/intent	Content where the speaker expresses that they are engaging or intend to engage in acts of self-harm, such as suicide, cutting, and eating disorders.
+self-harm/instructions	Content that encourages performing acts of self-harm, such as suicide, cutting, and eating disorders, or that gives instructions or advice on how to commit such acts.
+sexual	Content meant to arouse sexual excitement, such as the description of sexual activity, or that promotes sexual services (excluding sex education and wellness).
+sexual/minors	Sexual content that includes an individual who is under 18 years old.
+violence	Content that depicts death, violence, or physical injury.
+violence/graphic	Content that depicts death, violence, or physical injury in graphic detail.
+The moderation endpoint is free to use when monitoring the inputs and outputs of OpenAI APIs. We currently disallow other use cases. Accuracy may be lower on longer pieces of text. For higher accuracy, try splitting long pieces of text into smaller chunks each less than 2,000 characters.
+
+We are continuously working to improve the accuracy of our classifier. Our support for non-English languages is currently limited.
+
+Quickstart
+To obtain a classification for a piece of text, make a request to the moderation endpoint as demonstrated in the following code snippets:
+
+Example: Getting moderations
+python
+
+python
+from openai import OpenAI
+client = OpenAI()
+
+response = client.moderations.create(input="Sample text goes here.")
+
+output = response.results[0]
+Below is an example output of the endpoint. It returns the following fields:
+
+flagged: Set to true if the model classifies the content as violating OpenAI's usage policies, false otherwise.
+categories: Contains a dictionary of per-category binary usage policies violation flags. For each category, the value is true if the model flags the corresponding category as violated, false otherwise.
+category_scores: Contains a dictionary of per-category raw scores output by the model, denoting the model's confidence that the input violates the OpenAI's policy for the category. The value is between 0 and 1, where higher values denote higher confidence. The scores should not be interpreted as probabilities.
+{
+  "id": "modr-XXXXX",
+  "model": "text-moderation-005",
+  "results": [
+    {
+      "flagged": true,
+      "categories": {
+        "sexual": false,
+        "hate": false,
+        "harassment": false,
+        "self-harm": false,
+        "sexual/minors": false,
+        "hate/threatening": false,
+        "violence/graphic": false,
+        "self-harm/intent": false,
+        "self-harm/instructions": false,
+        "harassment/threatening": true,
+        "violence": true,
+      },
+      "category_scores": {
+        "sexual": 1.2282071e-06,
+        "hate": 0.010696256,
+        "harassment": 0.29842457,
+        "self-harm": 1.5236925e-08,
+        "sexual/minors": 5.7246268e-08,
+        "hate/threatening": 0.0060676364,
+        "violence/graphic": 4.435014e-06,
+        "self-harm/intent": 8.098441e-10,
+        "self-harm/instructions": 2.8498655e-11,
+        "harassment/threatening": 0.63055265,
+        "violence": 0.99011886,
+      }
+    }
+  ]
+}
